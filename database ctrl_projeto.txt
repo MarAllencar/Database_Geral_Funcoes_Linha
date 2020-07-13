@@ -1,0 +1,145 @@
+create database ATIVIDADE_BD
+
+go
+
+use ATIVIDADE_BD
+
+go
+
+/*-----Criando a tabela CARGO-----*/
+
+create table cargo
+	(cd_cargo		INT		PRIMARY KEY		NOT NULL,
+	dsc_cargo		Varchar(40				NOT NULL));
+
+go
+
+/*-----Criando a tabela FUNCIONARIO-----*/
+
+create table funcionario 
+	(cd_func		INT		PRIMARY KEY		NOT NULL,
+	funcionario_cd_func	INT		FORENG KEY,
+	cargo_cd_cargo		INT		FORENG KEY		NOT NULL,
+	nm_func			VARCHAR(60)				NOT NULL,
+	vl_salario_func		NUMERIC(7,2)				NOT NULL);
+
+go
+
+/*-----Criando a tabela STATUS_PROJETO-----*/
+
+create table status_projeto
+	(cd_sta			INT		PRIMARY KEY		NOT NULL,
+	dsc_sta			VARCHAR(30)				NOT NULL);
+
+go
+
+/*-----Criando a tabela CLIENTE-----*/
+
+create table cliente
+	(cd_cli			INT		PRIMARY KEY		NOT NULL,
+	nm_cli			VARCHAR(50)				NOT NULL,
+	ger_proj_cli		VARCHAR(50)				NOT NULL);
+	
+go
+
+/*-----Criando a tabela PROJETO------*/
+
+create table projeto
+	(cd_proj		INT		PRIMARY KEY 		NOT NULL,
+	status_projeto_cd_sta	INT		FORENG KEY		NOT NULL,
+	cliente_cd_cli		INT		FORENG KEY		NOT NULL,
+	funcionario_cd_fun	INT		FORENG KEY		NOT NULL,
+	dsc_proj		VARCHAR(50)				NOT NULL,
+	dat_ini_proj		DATE					NOT NULL,
+	dat_fim_proj		DATE					NOT NULL,
+	cst_proj		NUMERIC(7,2)				NOT NULL);
+
+go
+
+/*-----Criando a tabela FUNCIONARIO_PROJETO------*/
+
+create table funcionario_projeto
+	(projeto_cd_proj	INT		FORENG KEY		NOT NULL,
+	funcionario_cd_func	INT		FORENG KEY		NOT NULL,
+	qtd_hs_func		NUMERIC(3)				NOT NULL);
+
+go
+
+
+
+/*------------------------------------------------------------------------------------*/
+
+
+/*-----Insert da tabela CARGO-----*/
+
+insert into cargo (cd_cargo, dsc_cargo)
+       values	(1, 'Gerente Projeto'),
+	        (2, 'Analista'),
+		(3, 'Programador'),
+		(4, 'Teste');
+
+
+/*-----Insert da tabela FUNCIONARIO-----*/
+
+insert into funcionario (cd_func, funcionario_cd_func, cargo_cd_cargo, nm_func,	vl_salario_func)
+       values	(10, 40, 2, 'José', 6500.00),
+	        (15, 40, 2, 'Maria', 7300.00),
+		(20, 40, 4, 'Carlos', 3100.00),
+		(25, 45, 3, 'Silvio', 5300.00),
+		(30, 45, 3, 'Silveira', 5120.00),
+		(35, 45, 4, 'Antonio', 2800.00),
+		(40, NULL, 1, 'Valdir', 13200.00),
+		(45, NULL, 1, 'Ester', 1500.00);
+
+
+/*-----Insert da tabela STATUS_PROJETO-----*/
+
+insert into status_projeto (cd_sta, dsc_sta)
+       values	(1, 'Não Iniciado'),
+	        (2, 'Em Andamento'),
+		(3, 'Finalizado'),
+		(4, 'Cancelado');
+
+
+/*-----Insert da tabela CLIENTE-----*/
+
+insert into cliente (cd_cli, nm_cli, ger_proj_cli)
+       values	(1, 'Bar & Petisco', 'Martina'),
+	        (2, 'Ferramentas Borges', 'Samuel'),
+		(3, 'Recrutamento & Cia', 'Olivio');
+
+
+/*-----Insert da tabela PROJETO-----*/
+
+insert into projeto (cd_proj, status_projeto_cd_sta, cliente_cd_cli, funcionario_cd_fun, dsc_proj, dat_ini_proj, dat_fim_proj, cst_proj)
+       values	(1, 3, 1, 40, 'Venda Petisco', 2019-01-02, 2019-03-04, 12000.00),
+	        (2, 3, 3, 45, 'Controle de Recrutamento', 2019-02-05, 2019-05-03, 21000.00),
+		(3, 2, 2, 40, 'Festival Ferramentas', 2019-05-10, 2019-09-06, 43000.00);
+
+
+/*-----Insert da tabela FUNCIONARIO_PROJETO-----*/
+
+insert into funcionario_projeto (projeto_cd_proj, funcionario_cd_func, qtd_hs_func)
+       values	(1, 25, 100),
+		(2, 15, 30),
+		(2, 30, 250),
+		(2, 25, 100),
+		(3, 10, 100),
+		(3, 25, 200),
+		(3, 30, 250),
+		(3, 35, 200); 
+
+/*------------------------------------------------------------------------------------*/
+
+
+/*Selecionar os projetos Finalizados*/
+
+select cd_proj, status_projeto_cd_sta 
+from projeto // status_projeto
+group by cd_proj, status_projeto_cd_sta 
+having status_projeto_cd_sta = 3 
+order by status_projeto_cd_sta; 
+
+/*------------------------------------------------------------------------------------*/
+
+/**/
