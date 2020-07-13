@@ -142,4 +142,17 @@ order by status_projeto_cd_sta;
 
 /*------------------------------------------------------------------------------------*/
 
-/**/
+/*Insert status*/
+
+insert into status_projeto (cd_sta, dsc_sta)
+	value (5, 'Paralizado');
+	
+/*------------------------------------------------------------------------------------*/
+
+/*Insert de horas extras em funcionarios*/
+
+insert into funcionario_projeto
+value ('qtd_hs_extra', NUMERIC(2));
+
+/*------------------------------------------------------------------------------------*/
+
