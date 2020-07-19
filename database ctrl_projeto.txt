@@ -1,8 +1,8 @@
-create database ATIVIDADE_BD
+create database CTRL_PROJET
 
 go
 
-use ATIVIDADE_BD
+use CTRL_PROJET
 
 go
 
@@ -19,9 +19,9 @@ go
 create table funcionario 
 	(cd_func		INT		PRIMARY KEY		NOT NULL,
 	funcionario_cd_func	INT		FORENG KEY,
-	cargo_cd_cargo		INT		FORENG KEY		NOT NULL,
 	nm_func			VARCHAR(60)				NOT NULL,
-	vl_salario_func		NUMERIC(7,2)				NOT NULL);
+	vl_salario_func		NUMERIC(7,2)				NOT NULL,
+	constraint cargo_cd_cargo foreign key(cd_cargo) references cargo (cd_cargo));
 
 go
 
@@ -46,22 +46,22 @@ go
 
 create table projeto
 	(cd_proj		INT		PRIMARY KEY 		NOT NULL,
-	status_projeto_cd_sta	INT		FORENG KEY		NOT NULL,
-	cliente_cd_cli		INT		FORENG KEY		NOT NULL,
-	funcionario_cd_fun	INT		FORENG KEY		NOT NULL,
 	dsc_proj		VARCHAR(50)				NOT NULL,
 	dat_ini_proj		DATE					NOT NULL,
 	dat_fim_proj		DATE					NOT NULL,
-	cst_proj		NUMERIC(7,2)				NOT NULL);
+	cst_proj		NUMERIC(7,2)				NOT NULL
+	constraint status_projeto_cd_sta foreign key(cd_sta) references status_projeto (cd_sta),
+	constraint cliente_cd_cli foreign key(cd_cli) references cliente (cd_cli),
+	constraint funcionario_cd_fun foreign key(cd_fun) references funcionario (cd_fun));
 
 go
 
 /*-----Criando a tabela FUNCIONARIO_PROJETO------*/
 
 create table funcionario_projeto
-	(projeto_cd_proj	INT		FORENG KEY		NOT NULL,
-	funcionario_cd_func	INT		FORENG KEY		NOT NULL,
-	qtd_hs_func		NUMERIC(3)				NOT NULL);
+	(qtd_hs_func		NUMERIC(3)				NOT NULL,
+	constraint projeto_cd_proj foreign key(cd_proj) references projeto (cd_proj),
+	constraint funcionario_cd_func foreign key(cd_func) references funcionario (cd_func));
 
 go
 
@@ -152,7 +152,26 @@ insert into status_projeto (cd_sta, dsc_sta)
 /*Insert de horas extras em funcionarios*/
 
 insert into funcionario_projeto
-value ('qtd_hs_extra', NUMERIC(2));
+	value ('qtd_hs_extra', NUMERIC(2));
 
 /*------------------------------------------------------------------------------------*/
 
+/*Atualizar dados de Carlos(30h) e Antonio(15h)*/
+
+update funcionario_projeto
+set qtd_hs_extra = 30
+where qtd_hs_extra = qtd_hs_extra 'Carlos';
+
+update funcionario_projeto
+set qtd_hs_extra = 15
+where qtd_hs_extra = qtd_hs_extra 'Antonio';
+
+/*------------------------------------------------------------------------------------*/
+
+/*Atualizar 10% do salario, salario < Jose */
+
+update funcionario
+set vl_salario_func = vl_salario_func * 1.1
+where vl_salario_func < 6500.00;
+
+/*------------------------------------------------------------------------------------*/
