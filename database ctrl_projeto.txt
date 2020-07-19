@@ -279,4 +279,4 @@ SELECT SYSDATETIME(),
 /*Resposta P: Não, pois apesar destes trabalhos terem sidos finalizados, de acordo com a data de hoje, pode haver trabalhos futuros que se adaptam a esses cargos.
 Mas, para caso queira excluir, o comando é:*/
 
-/*delete from cargo*/
+/*drop table cargo*/
