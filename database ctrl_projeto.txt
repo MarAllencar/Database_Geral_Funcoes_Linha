@@ -253,3 +253,30 @@ order by projeto_cd_proj desc;
 go
 
 /*------------------------------------------------------------------------------------*/
+
+/*Listar do dados do Projeto...PS:não concluido essa parte*/
+
+/*select dat_ini_proj, dat_fim_proj 
+from projeto
+group by dat_ini_proj, dat_fim_proj
+having dat_ini_proj - dat_fim_proj */
+
+
+/*------------------------------------------------------------------------------------*/
+
+/*Selecionar data atual*/
+/*Trecho copiado de "https://docs.microsoft.com/pt-br/sql/t-sql/functions/getdate-transact-sql?view=sql-server-ver15"*/
+
+SELECT SYSDATETIME(),  
+    SYSDATETIMEOFFSET(),
+    SYSUTCDATETIME(),
+    CURRENT_TIMESTAMP,  
+    GETDATE(),  
+    GETUTCDATE();
+
+/*------------------------------------------------------------------------------------*/
+
+/*Resposta P: Não, pois apesar destes trabalhos terem sidos finalizados, de acordo com a data de hoje, pode haver trabalhos futuros que se adaptam a esses cargos.
+Mas, para caso queira excluir, o comando é:*/
+
+/*delete from cargo*/
