@@ -77,7 +77,7 @@ insert into cargo (cd_cargo, dsc_cargo)
 	        (2, 'Analista'),
 		(3, 'Programador'),
 		(4, 'Teste');
-
+go
 
 /*-----Insert da tabela FUNCIONARIO-----*/
 
@@ -90,7 +90,7 @@ insert into funcionario (cd_func, funcionario_cd_func, cargo_cd_cargo, nm_func,	
 		(35, 45, 4, 'Antonio', 2800.00),
 		(40, NULL, 1, 'Valdir', 13200.00),
 		(45, NULL, 1, 'Ester', 1500.00);
-
+go
 
 /*-----Insert da tabela STATUS_PROJETO-----*/
 
@@ -99,7 +99,7 @@ insert into status_projeto (cd_sta, dsc_sta)
 	        (2, 'Em Andamento'),
 		(3, 'Finalizado'),
 		(4, 'Cancelado');
-
+go
 
 /*-----Insert da tabela CLIENTE-----*/
 
@@ -107,7 +107,7 @@ insert into cliente (cd_cli, nm_cli, ger_proj_cli)
        values	(1, 'Bar & Petisco', 'Martina'),
 	        (2, 'Ferramentas Borges', 'Samuel'),
 		(3, 'Recrutamento & Cia', 'Olivio');
-
+go
 
 /*-----Insert da tabela PROJETO-----*/
 
@@ -115,7 +115,7 @@ insert into projeto (cd_proj, status_projeto_cd_sta, cliente_cd_cli, funcionario
        values	(1, 3, 1, 40, 'Venda Petisco', 2019-01-02, 2019-03-04, 12000.00),
 	        (2, 3, 3, 45, 'Controle de Recrutamento', 2019-02-05, 2019-05-03, 21000.00),
 		(3, 2, 2, 40, 'Festival Ferramentas', 2019-05-10, 2019-09-06, 43000.00);
-
+go
 
 /*-----Insert da tabela FUNCIONARIO_PROJETO-----*/
 
@@ -128,9 +128,10 @@ insert into funcionario_projeto (projeto_cd_proj, funcionario_cd_func, qtd_hs_fu
 		(3, 25, 200),
 		(3, 30, 250),
 		(3, 35, 200); 
+go
+
 
 /*------------------------------------------------------------------------------------*/
-
 
 /*Selecionar os projetos Finalizados*/
 
@@ -140,19 +141,24 @@ group by cd_proj, status_projeto_cd_sta
 having status_projeto_cd_sta = 3 
 order by status_projeto_cd_sta; 
 
+go
+
 /*------------------------------------------------------------------------------------*/
 
 /*Insert status*/
 
 insert into status_projeto (cd_sta, dsc_sta)
 	value (5, 'Paralizado');
-	
+go
+
 /*------------------------------------------------------------------------------------*/
 
 /*Insert de horas extras em funcionarios*/
 
 insert into funcionario_projeto
 	value ('qtd_hs_extra', NUMERIC(2));
+
+go
 
 /*------------------------------------------------------------------------------------*/
 
@@ -162,9 +168,13 @@ update funcionario_projeto
 set qtd_hs_extra = 30
 where qtd_hs_extra = qtd_hs_extra 'Carlos';
 
+go
+
 update funcionario_projeto
 set qtd_hs_extra = 15
 where qtd_hs_extra = qtd_hs_extra 'Antonio';
+
+go
 
 /*------------------------------------------------------------------------------------*/
 
@@ -173,5 +183,39 @@ where qtd_hs_extra = qtd_hs_extra 'Antonio';
 update funcionario
 set vl_salario_func = vl_salario_func * 1.1
 where vl_salario_func < 6500.00;
+
+go
+
+/*------------------------------------------------------------------------------------*/
+
+/*Selecionar dados dos funcionarios c/ inicial "S" - e a DSC_CARGO */
+
+select nm_func, dsc_cargo 
+from * funcionario 
+where nm_func = 'S%';
+
+go
+
+/*------------------------------------------------------------------------------------*/
+
+/*Criando uma View para consultar dados*/
+
+create view func_proj 
+as select cd_func, nm_func, dsc_cargo 
+from funcionario, cargo;
+
+go
+
+/*------------------------------------------------------------------------------------*/
+
+/*Selecionar Projeto e Funcionario com o valor >= 21000,00 && <= 43000,00*/
+
+select nm_func, cd_proj, cst_proj
+from funcionario, projeto
+where cst_proj
+having cst_proj >= 21000.00, <= 43000.00 
+order by cd_proj;
+
+go
 
 /*------------------------------------------------------------------------------------*/
