@@ -210,11 +210,45 @@ go
 
 /*Selecionar Projeto e Funcionario com o valor >= 21000,00 && <= 43000,00*/
 
-select nm_func, cd_proj, cst_proj
+select funcionario_cd_func, cd_proj, cst_proj
 from funcionario, projeto
 where cst_proj
 having cst_proj >= 21000.00, <= 43000.00 
 order by cd_proj;
+
+go
+
+/*------------------------------------------------------------------------------------*/
+
+/*Alterar coluna "DSC_CARGO", para varchar(50)*/
+
+alter table cargo
+alter column dsc_cargo, varchar(50);
+
+go
+
+/*------------------------------------------------------------------------------------*/
+
+/*Exibir informações do Projeto*/
+
+create view projeto 
+as select nm_cli, ger_proj_cli, nm_funci 
+from funcionario, cliente;
+
+go
+
+/*------------------------------------------------------------------------------------*/
+
+/* Todos os Count da quantidade de total de hrs dos func - afrupamento por projeto e class. desc. proj*/
+
+select projeto_cd_proj as "Projeto funcionarios (Horas)",
+	sum (qtd_hs_func) "Soma Horas"
+	max (qtd_hs_func) "Maximo Horas"
+	min (qtd_hs_func) "Minimo Horas"
+	avg (qtd_hs_func) "Media Horas"
+from funcionario_projeto
+group by projeto_cd_proj
+order by projeto_cd_proj desc;
 
 go
 
